@@ -18,10 +18,3 @@ a philosopher dies of starvation.
 • Philosophers don’t speak with each other.
 • Philosophers don’t know if another philosopher is about to die.
 • No need to say that philosophers should avoid dying!
-
-
-git add README.md \
-&& git commit -m "first commit" \
-&& git branch -M main \
-&& git remote add origin https://github.com/Abdell-Rabiai/philosophers.git \
-&& git push -u origin main
