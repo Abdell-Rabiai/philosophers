@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/09 14:24:42 by ahmaymou          #+#    #+#              #
-#    Updated: 2023/03/31 20:39:17 by arabiai          ###   ########.fr        #
+#    Updated: 2023/04/08 11:15:38 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,15 @@ BANNER=\
 '╚═╝      ╚═╝  ╚═╝ ╚═╝ ╚══════╝ ╚═════╝  ╚══════╝  ╚═════╝  ╚═╝      ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚══════╝'\
 '                                                                                             '                                                    
 
-mandatory = #$(addprefix sources/,philo_main.c)
+ft_utils = $(addprefix ft_utils/, ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_atoi.c)
 
-SRCS_OBJ = $(mandatory)
+sources = $(addprefix sources/,init_and_parse.c)
+
+SRCS_OBJ = $(sources) $(ft_utils)
 
 SRC = sources/philo_main.c
 
-FLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
+FLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 HEADER = philo.h
 

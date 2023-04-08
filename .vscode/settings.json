@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "philo.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "ft_printf.h": "c"
+    }
+}

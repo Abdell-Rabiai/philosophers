@@ -6,55 +6,76 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/03/31 23:37:31 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 12:43:35 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void *my_turn(void *arg)
+#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+void go_eat(t_nietzsche *node)
 {
-	(void)arg;
-	while (1)
+	// pthread_mutex_lock(&node->ferchitta);
+	// pthread_mutex_lock(&node->next->ferchitta);
+	printf("Philosopher %d is eating\n", node->id);
+	// pthread_mutex_unlock(&node->ferchitta);
+	// pthread_mutex_unlock(&node->next->ferchitta);
+	usleep(1000000);
+}
+
+void	*start_philosophizing(void *node)
+{
+	while (true)
 	{
-		printf("i'll take this fork\n");
-		sleep(3);
+		go_eat((t_nietzsche *)node);
+		// go_sleep((t_nietzsche *)node);
+		// go_think((t_nietzsche *)node);	
 	}
 	return (NULL);
 }
 
-void* your_turn(void *arg)
+void prepare_the_table(t_data *data)
 {
-	(void)arg;
-	while (1)
+	int i;
+	t_nietzsche *my_list;
+	t_nietzsche *new_node;
+
+	// t_nietzsche *tmp;
+	i = 1;
+	
+	my_list = ft_lstnew(i, start_philosophizing);
+	i++;
+	printf("{%d}\n", data->how_many_platos);
+	while (i <= data->how_many_platos)
 	{
-		printf("No, it's mine you idiot\n");
-		sleep(2);
+		printf("Added [%d]\n", i);
+		new_node = ft_lstnew(i, start_philosophizing);
+		ft_lstadd_back(&my_list, new_node);
+		i++;
 	}
-	return (NULL);
+	// tmp = ft_lstlast(my_list);
+	// tmp->next = my_list;
+
+	// printf("%d\n", my_list->id);
+	// printf("%d\n", my_list->next->id);
+	// printf("%d\n", my_list->next->next->id);
+	// printf("%d\n", my_list->next->next->next->id);
+	// printf("%d\n", my_list->next->next->next->next->id);
 }
 
-void* third_party(void *arg)
+int main(int ac, char **av)
 {
-	(void)arg;
-	while (1)
-	{
-		printf("Wait a minute, this fork is none of yours yuo fucking idiots\n");
-		sleep(2);
-	}
-	return (NULL);
-}
+	t_data data;;
 
-int main()
-{
-	pthread_t thread1;
-	pthread_t thread2;
-	pthread_t thread3;
-
-	pthread_create(&thread1, NULL, &my_turn, NULL);
-	pthread_create(&thread2, NULL, &your_turn, NULL);
-	pthread_create(&thread3, NULL, &third_party, NULL);
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
-	pthread_join(thread3, NULL);
+	if (parsing(ac, av))
+		return (0);
+	initialize_data(&data, av);
+	prepare_the_table(&data);
+	// philosophy(&data);
+	return (0);
 }
