@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:22:27 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 12:34:43 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 13:37:33 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_lstadd_back(t_nietzsche **lst, t_nietzsche *new)
 			temp = temp->next;
 		temp->next = new;
 	}
-	new->next = *lst;
 }
 
 // void	ft_lstadd_back(t_nietzsche **lst, t_nietzsche *new)

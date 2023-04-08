@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 12:43:35 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 14:18:01 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,31 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+void my_sleep(int ms)
+{
+	long long start_time = ft_get_current_time();
+	while (ft_get_current_time() - start_time < ms)
+		usleep(100);
+}
+
 void go_eat(t_nietzsche *node)
 {
-	// pthread_mutex_lock(&node->ferchitta);
-	// pthread_mutex_lock(&node->next->ferchitta);
-	printf("Philosopher %d is eating\n", node->id);
-	// pthread_mutex_unlock(&node->ferchitta);
-	// pthread_mutex_unlock(&node->next->ferchitta);
-	usleep(1000000);
+	pthread_mutex_lock(&node->ferchitta);
+	pthread_mutex_lock(&node->next->ferchitta);
+	ft_printf(1, "Philosopher %d is eating\n", node->id);
+	my_sleep(50);
+	pthread_mutex_unlock(&node->ferchitta);
+	pthread_mutex_unlock(&node->next->ferchitta);
 }
 
 void	*start_philosophizing(void *node)
 {
+	t_nietzsche *tmp;
+
+	tmp = (t_nietzsche *)node;
+	
+	if (tmp->id % 2 == 0)
+		usleep(100);
 	while (true)
 	{
 		go_eat((t_nietzsche *)node);
@@ -39,43 +52,50 @@ void	*start_philosophizing(void *node)
 	return (NULL);
 }
 
+void prepare_the_threads(t_nietzsche *my_list)
+{
+	t_nietzsche *tmp;
+	pthread_t thread_id;
+
+	tmp = my_list;
+	while (tmp->next != my_list)
+	{
+		pthread_create(&thread_id, NULL, tmp->f, tmp);
+		tmp = tmp->next;
+	}
+	pthread_create(&thread_id, NULL, tmp->f, tmp);
+}
+
 void prepare_the_table(t_data *data)
 {
 	int i;
 	t_nietzsche *my_list;
 	t_nietzsche *new_node;
+	t_nietzsche *tmp;
 
-	// t_nietzsche *tmp;
-	i = 1;
-	
+	i = 1;	
 	my_list = ft_lstnew(i, start_philosophizing);
 	i++;
-	printf("{%d}\n", data->how_many_platos);
 	while (i <= data->how_many_platos)
 	{
-		printf("Added [%d]\n", i);
 		new_node = ft_lstnew(i, start_philosophizing);
 		ft_lstadd_back(&my_list, new_node);
 		i++;
-	}
-	// tmp = ft_lstlast(my_list);
-	// tmp->next = my_list;
-
-	// printf("%d\n", my_list->id);
-	// printf("%d\n", my_list->next->id);
-	// printf("%d\n", my_list->next->next->id);
-	// printf("%d\n", my_list->next->next->next->id);
-	// printf("%d\n", my_list->next->next->next->next->id);
+	}	
+	tmp = ft_lstlast(my_list);
+	tmp->next = my_list;
+	prepare_the_threads(my_list);
 }
 
 int main(int ac, char **av)
 {
-	t_data data;;
+	t_data data;
 
 	if (parsing(ac, av))
 		return (0);
 	initialize_data(&data, av);
 	prepare_the_table(&data);
+	while(1);
 	// philosophy(&data);
 	return (0);
 }
