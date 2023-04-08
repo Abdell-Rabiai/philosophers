@@ -6,11 +6,11 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:43:36 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 05:32:45 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 15:18:48 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../philo.h"
 
 static int	ft_iswspace(char c)
 {

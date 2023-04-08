@@ -6,11 +6,11 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:22:27 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 13:37:33 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 15:19:05 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "../philo.h"
 
 void	ft_lstadd_back(t_nietzsche **lst, t_nietzsche *new)
 {

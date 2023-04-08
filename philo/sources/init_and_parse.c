@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 14:07:18 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 19:59:19 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ void initialize_data(t_data *socrates, char **av)
 		socrates->end_of_program = -1;
 	socrates->initial_time = ft_get_current_time();
 	socrates->nietzsche = NULL;
-	socrates->last = NULL;
-	socrates->print_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
-	// if (pthread_mutex_init(&socrates->print_mutex, NULL))
-	// 	return ;
+	if (pthread_mutex_init(&socrates->print_mutex, NULL))
+		return ;
 }
 
 int check_if_intger(char *str)

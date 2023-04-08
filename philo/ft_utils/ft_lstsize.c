@@ -6,11 +6,11 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:06:00 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 06:16:58 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 15:19:47 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "../philo.h"
 
 int	ft_lstsize(t_nietzsche *lst)
 {

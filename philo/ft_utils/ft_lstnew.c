@@ -6,14 +6,13 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:08:46 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 13:38:05 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 20:28:21 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "../philo.h"
 
-
-t_nietzsche	*ft_lstnew(int id, void *(*f)(void *))
+t_nietzsche	*ft_lstnew(int id, void *(*f)(void *), t_data *socrates)
 {
 	t_nietzsche	*new_node;
 
@@ -21,10 +20,11 @@ t_nietzsche	*ft_lstnew(int id, void *(*f)(void *))
 	if (!new_node)
 		return (NULL);
 	new_node->id = id;
-	new_node->last_meal = 0;
-	new_node->number_of_meals = 0;
+	new_node->last_meal_time = 0;
+	new_node->number_of_meals_eaten = 0;
 	new_node->f = f;
 	new_node->next = NULL;
+	new_node->my_data = socrates;
 	if (pthread_mutex_init(&new_node->ferchitta, NULL))
 		return (NULL);
 	return (new_node);

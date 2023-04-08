@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/09 14:24:42 by ahmaymou          #+#    #+#              #
-#    Updated: 2023/04/08 11:15:38 by arabiai          ###   ########.fr        #
+#    Updated: 2023/04/08 15:27:39 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ BANNER=\
 '╚═╝      ╚═╝  ╚═╝ ╚═╝ ╚══════╝ ╚═════╝  ╚══════╝  ╚═════╝  ╚═╝      ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚══════╝'\
 '                                                                                             '                                                    
 
-ft_utils = $(addprefix ft_utils/, ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_atoi.c)
+ft_utils = $(addprefix ft_utils/, ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_atoi.c)
 
 sources = $(addprefix sources/,init_and_parse.c)
 

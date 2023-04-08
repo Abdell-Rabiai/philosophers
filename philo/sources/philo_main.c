@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 14:18:01 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/08 22:22:13 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,48 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-void my_sleep(int ms)
+void slp(int time_in_ms)
 {
-	long long start_time = ft_get_current_time();
-	while (ft_get_current_time() - start_time < ms)
+	long long time_initiale = ft_get_current_time();
+	while (ft_get_current_time() - time_initiale < time_in_ms)
 		usleep(100);
+}
+
+void take_the_forks(t_nietzsche *node)
+{
+	pthread_mutex_lock(&node->ferchitta);
+	pthread_mutex_lock(&node->next->ferchitta);
+	pthread_mutex_lock(&node->my_data->print_mutex);
+	ft_printf(1, "Philosopher %d has taken both chopsticks\n", node->id);
+	pthread_mutex_unlock(&node->my_data->print_mutex);
+	pthread_mutex_unlock(&node->ferchitta);
+	pthread_mutex_unlock(&node->next->ferchitta);
 }
 
 void go_eat(t_nietzsche *node)
 {
-	pthread_mutex_lock(&node->ferchitta);
-	pthread_mutex_lock(&node->next->ferchitta);
+	pthread_mutex_lock(&node->my_data->print_mutex);
 	ft_printf(1, "Philosopher %d is eating\n", node->id);
-	my_sleep(50);
-	pthread_mutex_unlock(&node->ferchitta);
-	pthread_mutex_unlock(&node->next->ferchitta);
+	pthread_mutex_unlock(&node->my_data->print_mutex);
+	slp(node->my_data->time_to_eat);
+	//ft_printf(1, "Hello\n");
+	node->last_meal_time = ft_get_current_time();
+	node->number_of_meals_eaten++;
+}
+
+void go_sleep(t_nietzsche *node)
+{
+	pthread_mutex_lock(&node->my_data->print_mutex);
+	ft_printf(1, "Philosopher %d is sleeping\n", node->id);
+	pthread_mutex_unlock(&node->my_data->print_mutex);
+	slp(node->my_data->time_to_sleep);
+}
+
+void go_think(t_nietzsche *node)
+{
+	pthread_mutex_lock(&node->my_data->print_mutex);
+	ft_printf(1, "Philosopher %d is thinking\n", node->id);
+	pthread_mutex_unlock(&node->my_data->print_mutex);
 }
 
 void	*start_philosophizing(void *node)
@@ -45,9 +72,11 @@ void	*start_philosophizing(void *node)
 		usleep(100);
 	while (true)
 	{
-		go_eat((t_nietzsche *)node);
-		// go_sleep((t_nietzsche *)node);
-		// go_think((t_nietzsche *)node);	
+		take_the_forks(tmp);
+		go_eat(tmp);
+		go_sleep(tmp);
+		go_think(tmp);
+		slp(10);	
 	}
 	return (NULL);
 }
@@ -55,15 +84,17 @@ void	*start_philosophizing(void *node)
 void prepare_the_threads(t_nietzsche *my_list)
 {
 	t_nietzsche *tmp;
-	pthread_t thread_id;
+	void		*lst;
 
 	tmp = my_list;
 	while (tmp->next != my_list)
 	{
-		pthread_create(&thread_id, NULL, tmp->f, tmp);
+		lst = tmp;
+		pthread_create(&tmp->thread, NULL, tmp->f, lst);
 		tmp = tmp->next;
 	}
-	pthread_create(&thread_id, NULL, tmp->f, tmp);
+	lst = tmp;
+	pthread_create(&tmp->thread, NULL, tmp->f, lst);
 }
 
 void prepare_the_table(t_data *data)
@@ -74,17 +105,68 @@ void prepare_the_table(t_data *data)
 	t_nietzsche *tmp;
 
 	i = 1;	
-	my_list = ft_lstnew(i, start_philosophizing);
+	my_list = ft_lstnew(i, start_philosophizing, data);
 	i++;
 	while (i <= data->how_many_platos)
 	{
-		new_node = ft_lstnew(i, start_philosophizing);
+		new_node = ft_lstnew(i, start_philosophizing, data);
 		ft_lstadd_back(&my_list, new_node);
 		i++;
 	}	
 	tmp = ft_lstlast(my_list);
 	tmp->next = my_list;
+	data->nietzsche = my_list;
 	prepare_the_threads(my_list);
+}
+
+int all_philosophers_have_eaten_enough(t_data *data)
+{
+	t_nietzsche *temp;
+	int i;
+
+	i = 0;
+	temp = data->nietzsche;
+	while (temp->next != data->nietzsche)
+	{
+		if (temp->number_of_meals_eaten >= data->end_of_program)
+			i++;
+		temp = temp->next;
+	}
+	if (temp->number_of_meals_eaten >= data->end_of_program)
+		i++;
+	if (i == data->how_many_platos)
+		return (1);
+	return (0);
+}
+void check_the_philosophers(t_data *data)
+{
+	t_nietzsche *temp;
+
+	temp = data->nietzsche;
+
+	while (true)
+	{
+		// pthread_mutex_lock(&data->print_mutex);
+		// printf("{%llu}\n", ft_get_current_time() - temp->last_meal_time);
+		// printf("last time eat{%zu}\n", temp->last_meal_time);
+		// printf("time to die {%zu}\n",  data->time_to_die);
+		// pthread_mutex_unlock(&data->print_mutex);
+		if (temp->last_meal_time == 0)
+		if (temp->last_meal_time && ft_get_current_time() - temp->last_meal_time > data->time_to_die)
+		{
+			pthread_mutex_lock(&data->print_mutex);
+			ft_printf(1, "Philosopher %d is dead lah ir7mou\n", temp->id);
+			exit(EXIT_SUCCESS);
+		}
+		else if (data->end_of_program != -1 && all_philosophers_have_eaten_enough(data))
+		{
+			pthread_mutex_lock(&data->print_mutex);
+			ft_printf(1, "All philosophers have eaten enough\n");
+			exit(EXIT_SUCCESS);
+		}
+		temp = temp->next;
+		usleep(100);
+	}
 }
 
 int main(int ac, char **av)
@@ -95,7 +177,7 @@ int main(int ac, char **av)
 		return (0);
 	initialize_data(&data, av);
 	prepare_the_table(&data);
-	while(1);
-	// philosophy(&data);
+	check_the_philosophers(&data);
+	// while (true);
 	return (0);
 }

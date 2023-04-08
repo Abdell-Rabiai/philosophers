@@ -3,6 +3,8 @@
         "philo.h": "c",
         "unistd.h": "c",
         "stdio.h": "c",
-        "ft_printf.h": "c"
+        "ft_printf.h": "c",
+        "ctype.h": "c",
+        "stdlib.h": "c"
     }
 }
