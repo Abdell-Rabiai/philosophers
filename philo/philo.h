@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/08 16:22:06 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/10 21:03:11 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ typedef struct s_jean_paul_sartre
 	pthread_t					thread;
 	pthread_mutex_t				ferchitta;
 	size_t						last_meal_time;
+	int							before_eating_again;
 	int							number_of_meals_eaten;
 	bool						is_dead;
+	long						initial_time;
 	bool						has_eaten_enough;
 	void						*(*f)(void *);
 	struct s_jean_paul_sartre	*next;
@@ -47,18 +49,19 @@ typedef struct s_data
 	size_t 				time_to_eat;
 	size_t 				time_to_sleep;
 	int 				end_of_program;
-	int 				initial_time;
+	long 				initial_time;
 	pthread_mutex_t		print_mutex;
 }	t_data;
 
 /*----------------PETITE_PARSING----------------*/
-int			check_arguments(int ac, char **av);
-int			parsing(int ac, char **av);
-void		initialize_data(t_data *socrates, char **av);
+int				check_arguments(int ac, char **av);
+int				parsing(int ac, char **av);
+void			initialize_data(t_data *socrates, char **av);
 
 /*----------------PHILOSOPHY----------------*/
-long long	ft_get_current_time(void);
-void		create_threads(t_data *socrates);
+long long		ft_get_current_time(void);
+void			create_threads(t_data *socrates);
+void			go_eat(t_nietzsche *node);
 
 /*----------------utils_functions----------------*/
 int				ft_atoi(const char *str);
