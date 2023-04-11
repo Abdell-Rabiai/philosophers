@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/09 12:44:37 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/11 21:50:56 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void initialize_data(t_data *socrates, char **av)
 {
+	socrates->initial_time = ft_get_current_time();
 	socrates->how_many_platos = ft_atoi(av[1]);
 	socrates->time_to_die = ft_atoi(av[2]);
 	socrates->time_to_eat = ft_atoi(av[3]);
@@ -22,9 +23,10 @@ void initialize_data(t_data *socrates, char **av)
 		socrates->end_of_program = ft_atoi(av[5]);
 	else
 		socrates->end_of_program = -1;
-	socrates->initial_time = ft_get_current_time();
 	socrates->nietzsche = NULL;
 	if (pthread_mutex_init(&socrates->print_mutex, NULL))
+		return ;
+	if (pthread_mutex_init(&socrates->edit_mutex, NULL))
 		return ;
 }
 

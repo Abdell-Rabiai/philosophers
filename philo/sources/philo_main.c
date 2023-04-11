@@ -6,12 +6,11 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/10 21:11:16 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/11 22:17:20 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -30,7 +29,7 @@ void take_the_forks_and_eat(t_nietzsche *node)
 	pthread_mutex_lock(&node->ferchitta);
 	pthread_mutex_lock(&node->next->ferchitta);
 	pthread_mutex_lock(&node->my_data->print_mutex);
-	ft_printf(1, "%d | Philosopher %d has taken both chopsticks\n", ft_get_current_time() - node->initial_time, node->id);
+	ft_printf(1, "%d | Philosopher %d has taken both chopsticks\n", ft_get_current_time() - node->my_data->initial_time, node->id);
 	pthread_mutex_unlock(&node->my_data->print_mutex);
 	go_eat(node);
 	pthread_mutex_unlock(&node->ferchitta);
@@ -41,25 +40,29 @@ void go_eat(t_nietzsche *node)
 {
 
 	pthread_mutex_lock(&node->my_data->print_mutex);
-	ft_printf(1, "%d | Philosopher %d is eating\n", ft_get_current_time() - node->initial_time, node->id);
+	ft_printf(1, "%d | Philosopher %d is eating\n", ft_get_current_time() - node->my_data->initial_time, node->id);
 	pthread_mutex_unlock(&node->my_data->print_mutex);
+	pthread_mutex_lock(&node->my_data->edit_mutex);
 	node->number_of_meals_eaten++;
 	node->last_meal_time = ft_get_current_time();
+	pthread_mutex_unlock(&node->my_data->edit_mutex);
 	slp(node->my_data->time_to_eat);
 }
 
 void go_sleep(t_nietzsche *node)
 {
 	pthread_mutex_lock(&node->my_data->print_mutex);
-	ft_printf(1, "%d | Philosopher %d is sleeping\n", ft_get_current_time() - node->initial_time, node->id);
+	ft_printf(1, "%d | Philosopher %d is sleeping\n", ft_get_current_time() - node->my_data->initial_time, node->id);
 	pthread_mutex_unlock(&node->my_data->print_mutex);
+	pthread_mutex_lock(&node->my_data->edit_mutex);
+	pthread_mutex_unlock(&node->my_data->edit_mutex);
 	slp(node->my_data->time_to_sleep);
 }
 
 void go_think(t_nietzsche *node)
 {
 	pthread_mutex_lock(&node->my_data->print_mutex);
-	ft_printf(1, "%d | Philosopher %d is thinking\n", ft_get_current_time() - node->initial_time, node->id);
+	ft_printf(1, "%d | Philosopher %d is thinking\n", ft_get_current_time() - node->my_data->initial_time, node->id);
 	pthread_mutex_unlock(&node->my_data->print_mutex);
 }
 
@@ -89,13 +92,14 @@ void prepare_the_threads(t_nietzsche *my_list)
 	{
 		pthread_create(&tmp->thread, NULL, tmp->f, tmp);
 		tmp = tmp->next;
+		usleep(100);
 	}
 	pthread_create(&tmp->thread, NULL, tmp->f, tmp);
 }
 
 void prepare_the_table(t_data *data)
 {
-	int i;
+	int 		i;
 	t_nietzsche *my_list;
 	t_nietzsche *new_node;
 	t_nietzsche *tmp;
@@ -142,19 +146,21 @@ void check_the_philosophers(t_data *data)
 
 	while (true)
 	{
+		pthread_mutex_lock(&data->edit_mutex);
 		if ((ft_get_current_time() - temp->last_meal_time >= data->time_to_die))
 		{
 			pthread_mutex_lock(&data->print_mutex);
-			ft_printf(1, "%d | Philosopher %d is dead lah ir7mou\n", ft_get_current_time() - temp->initial_time, temp->id);
+			ft_printf(1, "%d | Philosopher %d is dead lah ir7mou\n", ft_get_current_time() - data->initial_time, temp->id);
 			exit(EXIT_SUCCESS);
 		}
 		else if (data->end_of_program != -1 && all_philosophers_have_eaten_enough(data))
 		{
 			pthread_mutex_lock(&data->print_mutex);
-			ft_printf(1, "%d | All philosophers have eaten enough\n",ft_get_current_time() - temp->initial_time);
+			ft_printf(1, "%d | All philosophers have eaten enough\n",ft_get_current_time() - data->initial_time);
 			exit(EXIT_SUCCESS);
 		}
 		temp = temp->next;
+		pthread_mutex_unlock(&data->edit_mutex);
 		slp(100);
 	}
 }

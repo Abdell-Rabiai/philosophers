@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/10 21:03:11 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/11 22:16:33 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ typedef struct s_jean_paul_sartre
 	pthread_t					thread;
 	pthread_mutex_t				ferchitta;
 	size_t						last_meal_time;
-	int							before_eating_again;
 	int							number_of_meals_eaten;
-	bool						is_dead;
-	long						initial_time;
-	bool						has_eaten_enough;
 	void						*(*f)(void *);
 	struct s_jean_paul_sartre	*next;
 	struct s_data				*my_data;
@@ -50,7 +46,9 @@ typedef struct s_data
 	size_t 				time_to_sleep;
 	int 				end_of_program;
 	long 				initial_time;
+	bool				stop_the_program;
 	pthread_mutex_t		print_mutex;
+	pthread_mutex_t		edit_mutex;
 }	t_data;
 
 /*----------------PETITE_PARSING----------------*/
