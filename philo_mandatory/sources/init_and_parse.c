@@ -6,33 +6,34 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/11 21:50:56 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/14 22:07:14 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void initialize_data(t_data *socrates, char **av)
+void	initialize_data(t_data *socrates, char **av)
 {
-	socrates->initial_time = ft_get_current_time();
 	socrates->how_many_platos = ft_atoi(av[1]);
 	socrates->time_to_die = ft_atoi(av[2]);
 	socrates->time_to_eat = ft_atoi(av[3]);
 	socrates->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		socrates->end_of_program = ft_atoi(av[5]);
+		socrates->nums_times_philo_must_eat = ft_atoi(av[5]);
 	else
-		socrates->end_of_program = -1;
+		socrates->nums_times_philo_must_eat = -1;
 	socrates->nietzsche = NULL;
+	socrates->finish = 0;
 	if (pthread_mutex_init(&socrates->print_mutex, NULL))
 		return ;
 	if (pthread_mutex_init(&socrates->edit_mutex, NULL))
 		return ;
+	socrates->initial_time = ft_get_current_time();
 }
 
-int check_if_intger(char *str)
+int	check_if_intger(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -40,7 +41,7 @@ int check_if_intger(char *str)
 		if ((str[i] == '-' || str[i] == '+') && i == 0)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (str[i] < '0' || str[i] > '9')
 			return (1);
@@ -49,21 +50,21 @@ int check_if_intger(char *str)
 	return (0);
 }
 
-int check_arguments(int ac, char **av)
+int	check_arguments(int ac, char **av)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < ac)
 	{
 		if (check_if_intger(av[i]))
 		{
-			ft_printf(2, "Error: Wrong argument type\n");
+			ft_printf(2, "\001\033[1;31m\002Error: Wrong argument type\n\033[0m");
 			return (1);
 		}
 		if (ft_atoi(av[i]) <= 0)
 		{
-			ft_printf(2, "Error: Wrong argument value\n");
+			ft_printf(2, "\001\033[1;31m\002Error: Wrong argument value\n\033[0m");
 			return (1);
 		}
 		i++;
@@ -71,11 +72,11 @@ int check_arguments(int ac, char **av)
 	return (0);
 }
 
-int parsing(int ac, char **av)
+int	parsing(int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
 	{
-		ft_printf(2, "Error: Wrong number of arguments\n");
+		ft_printf(2, "\001\033[1;31m\002Error: Wrong number of arguments\n\033[0m");
 		return (1);
 	}
 	else if (check_arguments(ac, av))
@@ -83,10 +84,10 @@ int parsing(int ac, char **av)
 	return (0);
 }
 
-long long	ft_get_current_time(void)
+long	ft_get_current_time(void)
 {
-	long long	time_in_seconds;
-	struct timeval time;
+	long			time_in_seconds;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	time_in_seconds = (time.tv_sec * 1000) + (time.tv_usec / 1000);

@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 10:08:46 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/11 21:52:00 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/14 22:07:57 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_nietzsche	*ft_lstnew(int id, void *(*f)(void *), t_data *socrates)
 	new_node->f = f;
 	new_node->next = NULL;
 	new_node->my_data = socrates;
-	new_node->last_meal_time = socrates->initial_time;
+	new_node->last_meal_time = ft_get_current_time();
 	if (pthread_mutex_init(&new_node->ferchitta, NULL))
 		return (NULL);
 	return (new_node);

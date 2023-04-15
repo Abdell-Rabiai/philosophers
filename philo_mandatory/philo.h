@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/11 22:16:33 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/14 22:04:06 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@
 # include <sys/time.h>
 # include "ft_printf/ft_printf.h"
 # include <pthread.h>
+
+# define SLEEP 0
+# define FORK 1
+# define EAT 2
+# define THINK 3
+# define DEAD 4
+# define DONE 5
+
 typedef struct s_jean_paul_sartre
 {
 	int							id;
@@ -39,16 +47,16 @@ typedef struct s_jean_paul_sartre
 
 typedef struct s_data
 {
-	t_nietzsche			*nietzsche;
-	int 				how_many_platos;
-	size_t 				time_to_die;
-	size_t 				time_to_eat;
-	size_t 				time_to_sleep;
-	int 				end_of_program;
-	long 				initial_time;
-	bool				stop_the_program;
-	pthread_mutex_t		print_mutex;
-	pthread_mutex_t		edit_mutex;
+	t_nietzsche		*nietzsche;
+	int				how_many_platos;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	int				nums_times_philo_must_eat;
+	long			initial_time;
+	int				finish;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	edit_mutex;
 }	t_data;
 
 /*----------------PETITE_PARSING----------------*/
@@ -57,9 +65,18 @@ int				parsing(int ac, char **av);
 void			initialize_data(t_data *socrates, char **av);
 
 /*----------------PHILOSOPHY----------------*/
-long long		ft_get_current_time(void);
+long			ft_get_current_time(void);
 void			create_threads(t_data *socrates);
+void			*start_philosophizing(void *node);
+void			prepare_the_threads(t_nietzsche *my_list);
+void			check_the_philosophers(t_data *data);
+void			prepare_the_table(t_data *data);
+void			take_the_forks_and_eat(t_nietzsche *node);
 void			go_eat(t_nietzsche *node);
+void			go_sleep(t_nietzsche *node);
+void			go_think(t_nietzsche *node);
+void			ft_sleep(int time_in_ms);
+void			go_print(int b, t_nietzsche *node, t_data *data);
 
 /*----------------utils_functions----------------*/
 int				ft_atoi(const char *str);
