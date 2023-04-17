@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/17 21:38:33 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/04/17 22:17:47 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,3 +98,6 @@ void	check_the_philosophers(t_data *data)
 		usleep(300);
 	}
 }
+
+
+
