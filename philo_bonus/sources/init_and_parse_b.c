@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_and_parse.c                                   :+:      :+:    :+:   */
+/*   init_and_parse_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/17 21:12:48 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/25 17:48:38 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	initialize_data(t_data *socrates, char **av)
 		socrates->nums_times_philo_must_eat = ft_atoi(av[5]);
 	else
 		socrates->nums_times_philo_must_eat = -1;
-	socrates->nietzsche = NULL;
 	socrates->finish = 0;
-	socrates->initial_time = ft_get_current_time();
 }
 
 int	check_if_intger(char *str)
