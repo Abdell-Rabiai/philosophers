@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/24 15:46:16 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/26 17:15:25 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <ctype.h>
 # include <stdbool.h>
+#include  <string.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -40,16 +41,16 @@
 typedef struct s_jean_paul_sartre
 {
 	int							id;
-	// pthread_t					thread;
+	sem_t 						*edit_sem;
 	size_t						last_meal_time;
 	int							number_of_meals_eaten;
+	pthread_t 					death_check_t;
 	struct s_data				*my_data;
 }	t_nietzsche;
 
 typedef struct s_data
 {
 	t_nietzsche		*nietzsche;
-	pthread_t 		death_check_t;
 	pthread_t 		eat_check_t;
 	int				how_many_platos;
 	size_t			time_to_die;
@@ -60,7 +61,7 @@ typedef struct s_data
 	int				finish;
 	sem_t			*chopsticks;
 	sem_t			*print_semaphore;
-	sem_t 			*edit_semaphore;
+	sem_t			*edit_semaphore;
 	sem_t 			*finish_the_program;
 	sem_t 			*all_eat_sem;
 }	t_data;
@@ -70,24 +71,26 @@ int				check_arguments(int ac, char **av);
 int				parsing(int ac, char **av);
 void			initialize_data(t_data *socrates, char **av);
 
-int				death_checker(t_data *data);
+int				death_checker(t_nietzsche *philo);
 
 /*----------------PHILOSOPHY----------------*/
 long			ft_get_current_time(void);
-void			create_threads(t_data *socrates);
-void			*start_philosophizing(void *node);
-void			prepare_the_threads(t_nietzsche *my_list);
+// void			create_threads(t_data *socrates);
+void 			start_philosophizing(t_nietzsche *philo);
+// void			prepare_the_threads(t_nietzsche *my_list);
 void			*check_the_philosophers(void *d);
 void			prepare_the_processes(t_data *data);
-void			take_the_forks_and_eat(t_data *data);
-void			go_eat(t_data *data);
-void			go_sleep_think(t_data *data);
+void			take_the_forks_and_eat(t_nietzsche *philo);
+void			go_eat(t_nietzsche *philo);
+void			go_sleep_think(t_nietzsche *philo);
 void			go_think(t_data *data);
 void			ft_sleep(int time_in_ms);
 void			go_print_b(int b, t_data *data);
 
 /*----------------utils_functions----------------*/
 int				ft_atoi(const char *str);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_itoa(int n);
 t_nietzsche		*ft_lstnew(int id, void *(*f)(void *), t_data *socrates);
 void			ft_lstadd_front(t_nietzsche **lst, t_nietzsche *new);
 int				ft_lstsize(t_nietzsche *lst);

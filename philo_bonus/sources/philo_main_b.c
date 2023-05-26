@@ -6,60 +6,68 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/25 18:19:10 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/26 17:35:23 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
-void	take_the_forks_and_eat(t_data *data)
+void	take_the_forks_and_eat(t_nietzsche *philo)
 {
-	sem_wait(data->chopsticks);
-	sem_wait(data->chopsticks);
+	t_data *data;
 
+	data = philo->my_data;
+	sem_wait(data->chopsticks);
+	sem_wait(data->chopsticks);
 	// go_print_b(FORK, data);
 	sem_wait(data->print_semaphore);
-	ft_printf(1, "\001\033[4;32m\002%d | Philosopher %d has"
+	printf("\001\033[4;32m\002%ld | Philosopher %d has"
 		"taken both chopsticks\033[0m\n",
-		ft_get_current_time() - data->initial_time, data->nietzsche->id);
+		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 	
-	go_eat(data);
-	
+	go_eat(philo);
+
 	sem_post(data->chopsticks);
 	sem_post(data->chopsticks);
 }
 
-void	go_eat(t_data *data)
+void	go_eat(t_nietzsche *philo)
 {
+	t_data *data;
 	// go_print_b(EAT, data);
+	data = philo->my_data;
+
 	sem_wait(data->print_semaphore);
 	ft_printf(1, "\001\033[4;33m\002%d | Philosopher %d is eating\n\033[0m",
-			ft_get_current_time() - data->initial_time, data->nietzsche->id);
+			ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 
-	sem_wait(data->edit_semaphore);
-	data->nietzsche->last_meal_time = ft_get_current_time();
-	data->nietzsche->number_of_meals_eaten++;
-	if (data->nietzsche->number_of_meals_eaten == data->nums_times_philo_must_eat)
-		sem_post(data->all_eat_sem);
-	sem_post(data->edit_semaphore);	
 	ft_sleep(data->time_to_eat);
+	sem_wait(philo->edit_sem);
+	philo->last_meal_time = ft_get_current_time();
+	philo->number_of_meals_eaten++;
+	if (philo->number_of_meals_eaten == data->nums_times_philo_must_eat)
+		sem_post(data->all_eat_sem);
+	sem_post(philo->edit_sem);	
 }
  
-void	go_sleep_think(t_data *data)
+void	go_sleep_think(t_nietzsche *philo)
 {
+	t_data *data;
+	
+	data = philo->my_data;
 	// go_print_b(SLEEP, data);
 	sem_wait(data->print_semaphore);
 	ft_printf(1, "\001\033[4;35m\002%d | Philosopher %d is sleeping\n\033[0m",
-		ft_get_current_time() - data->initial_time, data->nietzsche->id);
+		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 	
 	// go_print_b(THINK, data);
+	// ft_sleep(data->time_to_sleep);
 	sem_wait(data->print_semaphore);
 	ft_printf(1, "\001\033[4;36m\002%d | Philosopher %d is thinking\n\033[0m",
-		ft_get_current_time() - data->initial_time, data->nietzsche->id);
-	ft_sleep(data->time_to_sleep);
+		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 }
 
@@ -90,10 +98,12 @@ void *have_all_eaten(void *dat)
 		sem_wait(data->all_eat_sem);//wait for all philosophers to eat
 		i++;
 	}
+	sem_wait(data->print_semaphore);
 	ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All"
 			"philosophers have eaten enough\n\033[0m",
 			ft_get_current_time() - data->initial_time);
 	sem_post(data->finish_the_program);
+	exit(EXIT_SUCCESS);
 	return (NULL);
 }
 
@@ -105,6 +115,7 @@ void check_is_all_eaten_enough(t_data *data)
 		return ;
 	else
 	{
+		// data->nietzsche->number_of_meals_eaten = 0;
 		tid = pthread_create(&data->eat_check_t, NULL, &have_all_eaten, data);
 		if (tid != 0)
 		{

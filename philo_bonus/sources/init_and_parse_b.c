@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/25 17:48:38 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/26 17:28:21 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	initialize_data(t_data *socrates, char **av)
 	else
 		socrates->nums_times_philo_must_eat = -1;
 	socrates->finish = 0;
+	// socrates->initial_time = ft_get_current_time();
+	socrates->nietzsche = malloc(sizeof(t_nietzsche) * socrates->how_many_platos);
 }
 
 int	check_if_intger(char *str)
