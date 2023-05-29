@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 16:49:36 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 17:35:05 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void start_philosophizing(t_nietzsche *philo)
 	{
 		take_the_forks_and_eat(philo);
 		go_sleep_think(philo);
-		usleep(300);
+		usleep(300); //300
 	}
 }
 
@@ -92,7 +92,7 @@ void	*check_the_philosophers(void *d)
 			sem_post(data->finish_the_program);
 			kill(0, SIGINT);
 		}
-		usleep(1500);
+		usleep(1500); // 1500
 	}
 	return (NULL);
 }
