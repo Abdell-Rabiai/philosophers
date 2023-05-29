@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/09 14:24:42 by ahmaymou          #+#    #+#              #
-#    Updated: 2023/05/26 17:15:45 by arabiai          ###   ########.fr        #
+#    Created: 2023/05/29 12:01:23 by arabiai           #+#    #+#              #
+#    Updated: 2023/05/29 12:01:29 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = philo_bonus
 
 Color_Off=\033[0m
 LIGHTRED=\033[1;31m
@@ -36,7 +36,7 @@ SRCS = $(sources) $(ft_utils)
 
 MAIN_SRC = sources/philo_main.c
 
-FLAGS = -Wall -Werror -Wextra #-fsanitize=address
+FLAGS = -Wall -Werror -Wextra -fsanitize=thread
 
 HEADER = philo_bonus.h
 

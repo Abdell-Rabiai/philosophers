@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/26 17:35:23 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 12:00:17 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,18 @@ void check_is_all_eaten_enough(t_data *data)
 	}
 }
 
+void a(void)
+{
+	system("leaks philo_bonus");
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
 
 	if (parsing(ac, av))
 		return (0);
+	atexit(a);
 	initialize_data(&data, av);
 	prepare_the_semapores(&data);
 	check_is_all_eaten_enough(&data);
