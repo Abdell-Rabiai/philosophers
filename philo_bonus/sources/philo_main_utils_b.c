@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/26 17:32:03 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 16:49:36 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,16 @@ void	prepare_the_processes(t_data *data)
 		num = ft_itoa(i);
 		name = ft_strjoin("/edit_sem", num);
 		unlink(name);
+		pid = fork();
 		data->nietzsche[i].edit_sem = sem_open(name, O_CREAT, 0644, 1);
 		data->nietzsche[i].id = i + 1;
 		data->nietzsche[i].number_of_meals_eaten = 0;
 		data->nietzsche[i].my_data = data;
-		pid = fork();
 		if (pid == 0)
 		{
 			death_checker(&data->nietzsche[i]);
 			start_philosophizing(&data->nietzsche[i]);
 		}
-		// usleep(100);
 		free(name);
 		free(num);
 		i++;

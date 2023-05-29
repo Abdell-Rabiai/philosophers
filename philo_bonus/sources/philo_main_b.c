@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 12:00:17 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 15:12:01 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	go_eat(t_nietzsche *philo)
 	ft_printf(1, "\001\033[4;33m\002%d | Philosopher %d is eating\n\033[0m",
 			ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
-
 	ft_sleep(data->time_to_eat);
+
 	sem_wait(philo->edit_sem);
 	philo->last_meal_time = ft_get_current_time();
 	philo->number_of_meals_eaten++;
@@ -62,9 +62,9 @@ void	go_sleep_think(t_nietzsche *philo)
 	ft_printf(1, "\001\033[4;35m\002%d | Philosopher %d is sleeping\n\033[0m",
 		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
+	ft_sleep(data->time_to_sleep);
 	
 	// go_print_b(THINK, data);
-	// ft_sleep(data->time_to_sleep);
 	sem_wait(data->print_semaphore);
 	ft_printf(1, "\001\033[4;36m\002%d | Philosopher %d is thinking\n\033[0m",
 		ft_get_current_time() - data->initial_time, philo->id);
@@ -95,7 +95,7 @@ void *have_all_eaten(void *dat)
 	i = 0;
 	while (i < data->how_many_platos)
 	{
-		sem_wait(data->all_eat_sem);//wait for all philosophers to eat
+		sem_wait(data->all_eat_sem);
 		i++;
 	}
 	sem_wait(data->print_semaphore);
@@ -126,18 +126,12 @@ void check_is_all_eaten_enough(t_data *data)
 	}
 }
 
-void a(void)
-{
-	system("leaks philo_bonus");
-}
-
 int	main(int ac, char **av)
 {
 	t_data	data;
 
 	if (parsing(ac, av))
 		return (0);
-	atexit(a);
 	initialize_data(&data, av);
 	prepare_the_semapores(&data);
 	check_is_all_eaten_enough(&data);

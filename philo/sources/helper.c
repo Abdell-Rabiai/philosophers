@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:47:58 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/15 01:12:39 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 13:50:49 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@ void	go_print2(int b, t_nietzsche *node, t_data *data)
 {
 	if (b == DONE)
 	{
-		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All"
+		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All "
 			"philosophers have eaten enough\n\033[0m",
 			ft_get_current_time() - data->initial_time);
 		exit(EXIT_SUCCESS);
+		return ;
 	}
 	else if (b == DEAD)
 	{
-		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d |"
+		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | "
 			"Philosopher %d is DEAD\n\033[0m",
 			ft_get_current_time() - data->initial_time, node->id);
 		exit(EXIT_SUCCESS);
+		return ;
 	}
 }
 
@@ -34,7 +36,7 @@ void	go_print(int b, t_nietzsche *node, t_data *data)
 {
 	pthread_mutex_lock(&node->my_data->print_mutex);
 	if (b == FORK)
-		ft_printf(1, "\001\033[4;32m\002%d | Philosopher %d has"
+		ft_printf(1, "\001\033[4;32m\002%d | Philosopher %d has "
 			"taken both chopsticks\033[0m\n",
 			ft_get_current_time() - node->my_data->initial_time, node->id);
 	else if (b == EAT)

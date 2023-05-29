@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/14 22:04:06 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 13:40:34 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_data
 	int				nums_times_philo_must_eat;
 	long			initial_time;
 	int				finish;
+	int				philo_died;
+	int				all_died;
+	pthread_mutex_t finish_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	edit_mutex;
 }	t_data;

@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/04/15 01:07:18 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/29 15:21:38 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	go_eat(t_nietzsche *node)
 void	go_sleep(t_nietzsche *node)
 {
 	go_print(SLEEP, node, node->my_data);
-	pthread_mutex_lock(&node->my_data->edit_mutex);
-	pthread_mutex_unlock(&node->my_data->edit_mutex);
 	ft_sleep(node->my_data->time_to_sleep);
 }
 
