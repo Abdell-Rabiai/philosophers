@@ -6,11 +6,30 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:47:58 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 13:50:49 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/05/30 12:47:14 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+void free_everything(t_data *data)
+{
+	t_nietzsche	*tmp;
+	t_nietzsche	*tmp2;
+
+	tmp = data->nietzsche;
+	while (tmp->next != data->nietzsche)
+	{
+		tmp2 = tmp;
+		tmp = tmp->next;
+		free(tmp2);
+		pthread_mutex_destroy(&tmp2->ferchitta);
+	}
+	free(tmp);
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->edit_mutex);
+	pthread_mutex_destroy(&data->finish_mutex);
+}
 
 void	go_print2(int b, t_nietzsche *node, t_data *data)
 {
@@ -19,6 +38,7 @@ void	go_print2(int b, t_nietzsche *node, t_data *data)
 		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All "
 			"philosophers have eaten enough\n\033[0m",
 			ft_get_current_time() - data->initial_time);
+		free_everything(data);
 		exit(EXIT_SUCCESS);
 		return ;
 	}
@@ -27,6 +47,7 @@ void	go_print2(int b, t_nietzsche *node, t_data *data)
 		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | "
 			"Philosopher %d is DEAD\n\033[0m",
 			ft_get_current_time() - data->initial_time, node->id);
+		free_everything(data);
 		exit(EXIT_SUCCESS);
 		return ;
 	}
