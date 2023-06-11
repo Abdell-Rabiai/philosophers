@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/07 18:48:06 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/11 19:34:30 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,15 @@ void	prepare_the_semapores(t_data *data)
 
 int	main(int ac, char **av)
 {
-	t_data	data;
+	t_data	*data;
 
+	data = (t_data *)malloc(sizeof(t_data));
 	if (parsing(ac, av))
 		return (0);
-	initialize_data(&data, av);
-	prepare_the_semapores(&data);
-	check_is_all_eaten_enough(&data);
-	prepare_the_processes(&data);
+	initialize_data(data, av);
+	prepare_the_semapores(data);
+	check_is_all_eaten_enough(data);
+	prepare_the_processes(data);
 	kill(0, SIGINT);
 	return (0);
 }

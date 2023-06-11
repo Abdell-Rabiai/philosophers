@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/29 12:01:23 by arabiai           #+#    #+#              #
-#    Updated: 2023/06/11 14:11:07 by arabiai          ###   ########.fr        #
+#    Updated: 2023/06/11 19:37:08 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ banner2:
 	echo "$(LIGHTRED)                     By : Abdell-rabiai :) \n$(Color_Off)"
 
 %.o: %.c $(HEADER)
-	@printf "$(GREEN) Generating minishell objects... %-33.33s\r" $@
+	@printf "$(GREEN) Generating Philosophers objects... %-33.33s\r" $@
 	@$(CC) $(FLAGS) $(READLINE_INC) -c $< -o $@
 
 $(NAME) : $(OBJ) $(HEADER)
