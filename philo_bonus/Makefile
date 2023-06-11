@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/29 12:01:23 by arabiai           #+#    #+#              #
-#    Updated: 2023/05/29 17:35:04 by arabiai          ###   ########.fr        #
+#    Updated: 2023/06/11 14:11:07 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,13 @@ BANNER=\
 
 ft_utils = $(addprefix ft_utils/, ft_atoi.c ft_strjoin.c ft_itoa.c)
 
-sources = $(addprefix sources/,init_and_parse_b.c philo_main_utils_b.c philo_main_b.c helper_b.c)
+sources = $(addprefix sources/,init_and_parse_b.c philo_main_utils_b.c philo_main_b.c helper_b.c )
 
 SRCS = $(sources) $(ft_utils)
 
 MAIN_SRC = sources/philo_main.c
 
-FLAGS = -Wall -Werror -Wextra -pthread# -fsanitize=thread
+FLAGS = -Wall -Werror -Wextra -pthread -fsanitize=thread
 
 HEADER = philo_bonus.h
 

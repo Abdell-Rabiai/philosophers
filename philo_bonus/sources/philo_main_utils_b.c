@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 17:35:05 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/08 18:02:23 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,26 @@ void	ft_sleep(int time_in_ms)
 		usleep(200);
 }
 
-void start_philosophizing(t_nietzsche *philo)
+void	start_philosophizing(t_nietzsche *philo)
 {
 	while (1)
 	{
 		take_the_forks_and_eat(philo);
 		go_sleep_think(philo);
-		usleep(300); //300
+		usleep(300);
 	}
 }
 
 int	death_checker(t_nietzsche *philo)
 {
-	int t;
+	int	t;
 
 	philo->last_meal_time = ft_get_current_time();
-	t = pthread_create(&philo->death_check_t, NULL, &check_the_philosophers, philo);
+	t = pthread_create(&philo->death_check_t, NULL,
+			&check_the_philosophers, philo);
 	if (t != 0)
-		return (printf("Error in thread creation\n"), sem_post(philo->my_data->finish_the_program));
+		return (printf("Error in thread creation\n"),
+			sem_post(philo->my_data->finish_the_program));
 	pthread_detach(philo->death_check_t);
 	return (0);
 }
@@ -46,7 +48,7 @@ int	death_checker(t_nietzsche *philo)
 void	prepare_the_processes(t_data *data)
 {
 	int			i;
-	pid_t 		pid;
+	pid_t		pid;
 	char		*name;
 	char		*num;
 
@@ -63,10 +65,7 @@ void	prepare_the_processes(t_data *data)
 		data->nietzsche[i].number_of_meals_eaten = 0;
 		data->nietzsche[i].my_data = data;
 		if (pid == 0)
-		{
-			death_checker(&data->nietzsche[i]);
-			start_philosophizing(&data->nietzsche[i]);
-		}
+			do_routine_and_check_death(&data->nietzsche[i]);
 		free(name);
 		free(num);
 		i++;
@@ -76,7 +75,7 @@ void	prepare_the_processes(t_data *data)
 
 void	*check_the_philosophers(void *d)
 {
-	t_data 		*data;
+	t_data		*data;
 	t_nietzsche	*philo;
 
 	philo = ((t_nietzsche *)d);
@@ -87,12 +86,12 @@ void	*check_the_philosophers(void *d)
 		{
 			sem_wait(data->print_semaphore);
 			ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | "
-			"Philosopher %d is DEAD\n\033[0m",
-			ft_get_current_time() - data->initial_time, philo->id);
+				"Philosopher %d is DEAD\n\033[0m",
+				ft_get_current_time() - data->initial_time, philo->id);
 			sem_post(data->finish_the_program);
 			kill(0, SIGINT);
 		}
-		usleep(1500); // 1500
+		usleep(1500);
 	}
 	return (NULL);
 }

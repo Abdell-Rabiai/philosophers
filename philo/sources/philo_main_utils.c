@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 15:19:10 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/10 15:25:02 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ void	prepare_the_threads(t_nietzsche *my_list)
 	while (tmp->next != my_list)
 	{
 		pthread_create(&tmp->thread, NULL, tmp->f, tmp);
+		pthread_detach(tmp->thread);
 		tmp = tmp->next;
 		usleep(100);
 	}
 	pthread_create(&tmp->thread, NULL, tmp->f, tmp);
+	pthread_detach(tmp->thread);
 	usleep(100);
 }
 
@@ -81,10 +83,16 @@ void	check_the_philosophers(t_data *data)
 	{
 		pthread_mutex_lock(&data->edit_mutex);
 		if ((ft_get_current_time() - temp->last_meal_time >= data->time_to_die))
-			go_print(DEAD, temp, data);
+		{
+			if (go_print(DEAD, temp, data))
+				return ;
+		}
 		else if (data->nums_times_philo_must_eat != -1
 			&& data->finish == data->how_many_platos)
-			go_print(DONE, temp, data);
+		{
+			if (go_print(DONE, temp, data))
+				return ;
+		}
 		temp = temp->next;
 		pthread_mutex_unlock(&data->edit_mutex);
 		usleep(300);

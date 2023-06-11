@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 15:21:38 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/10 14:47:56 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	go_eat(t_nietzsche *node)
 {
 	go_print(EAT, node, node->my_data);
 	pthread_mutex_lock(&node->my_data->edit_mutex);
-	node->number_of_meals_eaten++;
+	node->number_of_meals_eaten++;	
 	node->last_meal_time = ft_get_current_time();
 	if (node->number_of_meals_eaten == node->my_data->nums_times_philo_must_eat)
 		node->my_data->finish++;

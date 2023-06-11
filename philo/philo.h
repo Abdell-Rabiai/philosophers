@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 13:40:34 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/08 19:13:07 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ typedef struct s_data
 	int				finish;
 	int				philo_died;
 	int				all_died;
-	pthread_mutex_t finish_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	edit_mutex;
+	pthread_mutex_t	meals_mutex;
 }	t_data;
 
 /*----------------PETITE_PARSING----------------*/
@@ -79,7 +79,7 @@ void			go_eat(t_nietzsche *node);
 void			go_sleep(t_nietzsche *node);
 void			go_think(t_nietzsche *node);
 void			ft_sleep(int time_in_ms);
-void			go_print(int b, t_nietzsche *node, t_data *data);
+int				go_print(int b, t_nietzsche *node, t_data *data);
 
 /*----------------utils_functions----------------*/
 int				ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/29 13:40:58 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/08 19:14:01 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	initialize_data(t_data *socrates, char **av)
 	if (pthread_mutex_init(&socrates->print_mutex, NULL))
 		return ;
 	if (pthread_mutex_init(&socrates->edit_mutex, NULL))
+		return ;
+	if (pthread_mutex_init(&socrates->meals_mutex, NULL))
 		return ;
 	socrates->philo_died = 0;
 	socrates->all_died = 0;
