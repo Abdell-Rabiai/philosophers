@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/08 18:02:23 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/11 14:18:32 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ int	death_checker(t_nietzsche *philo)
 	t = pthread_create(&philo->death_check_t, NULL,
 			&check_the_philosophers, philo);
 	if (t != 0)
-		return (printf("Error in thread creation\n"),
-			sem_post(philo->my_data->finish_the_program));
+	{
+		printf("Error in thread creation\n");
+		sem_post(philo->my_data->finish_the_program);
+		return (1);
+	}
 	pthread_detach(philo->death_check_t);
 	return (0);
 }
