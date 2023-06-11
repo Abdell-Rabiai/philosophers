@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:47:58 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/10 15:24:49 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/11 18:39:28 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ int	go_print(int b, t_nietzsche *node, t_data *data)
 	pthread_mutex_unlock(&node->my_data->print_mutex);
 	return (0);
 }
-

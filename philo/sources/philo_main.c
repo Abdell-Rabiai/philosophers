@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/10 14:47:56 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/11 19:32:32 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ void	go_think(t_nietzsche *node)
 
 int	main(int ac, char **av)
 {
-	t_data	data;
+	t_data	*data;
 
 	if (parsing(ac, av))
 		return (0);
-	initialize_data(&data, av);
-	prepare_the_table(&data);
-	check_the_philosophers(&data);
+	data = (t_data *)malloc(sizeof(t_data));
+	initialize_data(data, av);
+	prepare_the_table(data);
+	check_the_philosophers(data);
 	return (0);
 }
