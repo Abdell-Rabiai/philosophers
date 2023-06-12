@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/29 12:01:23 by arabiai           #+#    #+#              #
-#    Updated: 2023/06/11 19:37:08 by arabiai          ###   ########.fr        #
+#    Updated: 2023/06/12 13:53:00 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS = $(sources) $(ft_utils)
 
 MAIN_SRC = sources/philo_main.c
 
-FLAGS = -Wall -Werror -Wextra -pthread -fsanitize=thread
+FLAGS = -Wall -Werror -Wextra -pthread
 
 HEADER = philo_bonus.h
 

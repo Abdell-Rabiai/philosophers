@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/09 14:24:42 by ahmaymou          #+#    #+#              #
-#    Updated: 2023/06/11 16:30:40 by arabiai          ###   ########.fr        #
+#    Updated: 2023/06/12 13:53:11 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS = $(sources) $(ft_utils)
 
 MAIN_SRC = sources/philo_main.c
 
-FLAGS = -Wall -Werror -Wextra -pthread -fsanitize=thread 
+FLAGS = -Wall -Werror -Wextra -pthread
 
 HEADER = philo.h
 
@@ -59,7 +59,7 @@ banner2:
 	echo "$(LIGHTRED)                     By : Abdell-rabiai :) \n$(Color_Off)"
 
 %.o: %.c $(HEADER)
-	@printf "$(GREEN) Generating minishell objects... %-33.33s\r" $@
+	@printf "$(GREEN) Generating Philosophers objects... %-33.33s\r" $@
 	@$(CC) $(FLAGS) $(READLINE_INC) -c $< -o $@
 
 $(NAME) : $(OBJ) $(HEADER)
