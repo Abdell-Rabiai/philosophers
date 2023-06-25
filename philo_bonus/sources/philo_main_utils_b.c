@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:22 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 19:15:58 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_sleep(int time_in_ms)
 
 void	start_philosophizing(t_nietzsche *philo)
 {
+	if (philo->id % 2 == 0)
+		ft_sleep(200);
 	while (1)
 	{
 		take_the_forks_and_eat(philo);
@@ -61,12 +63,12 @@ void	prepare_the_processes(t_data *data)
 	{
 		num = ft_itoa(i);
 		name = ft_strjoin("/edit_sem", num);
-		unlink(name);
-		pid = fork();
+		sem_unlink(name);
 		data->nietzsche[i].edit_sem = sem_open(name, O_CREAT, 0644, 1);
 		data->nietzsche[i].id = i + 1;
 		data->nietzsche[i].number_of_meals_eaten = 0;
 		data->nietzsche[i].my_data = data;
+		pid = fork();
 		if (pid == 0)
 			do_routine_and_check_death(&data->nietzsche[i]);
 		free(name);
@@ -85,15 +87,17 @@ void	*check_the_philosophers(void *d)
 	data = philo->my_data;
 	while (1)
 	{
+		sem_wait(philo->edit_sem);
 		if ((ft_get_current_time() - philo->last_meal_time > data->time_to_die))
 		{
 			sem_wait(data->print_semaphore);
-			ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | "
+			printf("\001\033[1;31m\033[4;31m\002\002%ld | "
 				"Philosopher %d is DEAD\n\033[0m",
 				ft_get_current_time() - data->initial_time, philo->id);
 			sem_post(data->finish_the_program);
 			kill(0, SIGINT);
 		}
+		sem_post(philo->edit_sem);
 		usleep(1500);
 	}
 	return (NULL);

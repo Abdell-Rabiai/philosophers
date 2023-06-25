@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/12 13:53:26 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/24 03:58:16 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	take_the_forks_and_eat(t_nietzsche *node)
 {
 	pthread_mutex_lock(&node->ferchitta);
+	go_print(FORK_RIGHT, node, node->my_data);
 	pthread_mutex_lock(&node->next->ferchitta);
-	go_print(FORK, node, node->my_data);
+	go_print(FORK_LEFT, node, node->my_data);
 	go_eat(node);
 	pthread_mutex_unlock(&node->ferchitta);
 	pthread_mutex_unlock(&node->next->ferchitta);

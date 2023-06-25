@@ -6,7 +6,7 @@
 #    By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/09 14:24:42 by ahmaymou          #+#    #+#              #
-#    Updated: 2023/06/14 18:34:48 by arabiai          ###   ########.fr        #
+#    Updated: 2023/06/25 18:46:17 by arabiai          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,9 @@ HEADER = philo.h
 
 CC = cc
 
-LIBS = ft_printf/libftprintf.a
-
 OBJ = $(SRCS:.c=.o)
 
-all : banner2 libftprintf $(NAME)
+all : banner2 $(NAME)
 
 banner2:
 	@clear
@@ -63,19 +61,14 @@ banner2:
 	@$(CC) $(FLAGS) $(READLINE_INC) -c $< -o $@
 
 $(NAME) : $(OBJ) $(HEADER)
-	@$(CC) $(FLAGS) $(OBJ) $(LIBS) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 	@echo "\n\n\t$(Cyan) Enjoooy :)\n $(Color_Off)"
 
-libftprintf :
-	@make -C ft_printf/
-
 clean :
-	@make clean -C ft_printf
 	@rm -rf $(OBJ)
 
 fclean : clean
-	@make fclean -C ft_printf
-	@rm -rf $(LIBS) $(NAME) $(MAIN_SRC:.c=.o)
+	@rm -rf $(NAME) $(MAIN_SRC:.c=.o)
 	@rm -rf *.dSYM .vscode
 
 re : fclean all

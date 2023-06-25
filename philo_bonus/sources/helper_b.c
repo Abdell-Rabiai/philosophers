@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:47:58 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:32 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:51:30 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*have_all_eaten(void *dat)
 		i++;
 	}
 	sem_wait(data->print_semaphore);
-	ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All"
+	printf("\001\033[1;31m\033[4;31m\002\002%ld | All"
 		"philosophers have eaten enough\n\033[0m",
 		ft_get_current_time() - data->initial_time);
 	sem_post(data->finish_the_program);
@@ -65,16 +65,18 @@ void	go_print2_b(int b, t_data *data)
 {
 	if (b == DONE)
 	{
-		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | All "
+		printf("\001\033[1;31m\033[4;31m\002\002%ld | All "
 			"philosophers have eaten enough\n\033[0m",
 			ft_get_current_time() - data->initial_time);
+		free(data->nietzsche);
 		exit(EXIT_SUCCESS);
 	}
 	else if (b == DEAD)
 	{
-		ft_printf(1, "\001\033[1;31m\033[4;31m\002\002%d | "
+		printf("\001\033[1;31m\033[4;31m\002\002%ld | "
 			" Philosopher %d is DEAD\n\033[0m",
 			ft_get_current_time() - data->initial_time, data->nietzsche->id);
+		free(data->nietzsche);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -82,18 +84,22 @@ void	go_print2_b(int b, t_data *data)
 void	go_print_b(int b, t_data *data)
 {
 	sem_wait(data->print_semaphore);
-	if (b == FORK)
-		ft_printf(1, "\001\033[4;32m\002%d | Philosopher %d has "
-			"taken both chopsticks\033[0m\n",
+	if (b == FORK_RIGHT)
+		printf("\001\033[4;32m\002%ld | Philosopher %d has "
+			"taken the RIGHT chopstick\033[0m\n",
+			ft_get_current_time() - data->initial_time, data->nietzsche->id);
+	else if (b == FORK_LEFT)
+		printf("\001\033[4;32m\002%ld | Philosopher %d has "
+			"taken the LEFT chopstick\033[0m\n",
 			ft_get_current_time() - data->initial_time, data->nietzsche->id);
 	else if (b == EAT)
-		ft_printf(1, "\001\033[4;33m\002%d | Philosopher %d is eating\n\033[0m",
+		printf("\001\033[4;33m\002%ld | Philosopher %d is eating\n\033[0m",
 			ft_get_current_time() - data->initial_time, data->nietzsche->id);
 	else if (b == SLEEP)
-		ft_printf(1, "\001\033[4;35m\002%d | Philosopher %d is sleeping\n\033[0m",
+		printf("\001\033[4;35m\002%ld | Philosopher %d is sleeping\n\033[0m",
 			ft_get_current_time() - data->initial_time, data->nietzsche->id);
 	else if (b == THINK)
-		ft_printf(1, "\001\033[4;36m\002%d | Philosopher %d is thinking\n\033[0m",
+		printf("\001\033[4;36m\002%ld | Philosopher %d is thinking\n\033[0m",
 			ft_get_current_time() - data->initial_time, data->nietzsche->id);
 	else
 		go_print2_b(b, data);

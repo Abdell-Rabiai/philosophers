@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:39:45 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:26 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:51:04 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void	take_the_forks_and_eat(t_nietzsche *philo)
 
 	data = philo->my_data;
 	sem_wait(data->chopsticks);
+	sem_wait(data->print_semaphore);
+	printf("\001\033[4;32m\002%ld | Philosopher %d has"
+		"taken the RIGHT chopstick\033[0m\n",
+		ft_get_current_time() - data->initial_time, philo->id);
+	sem_post(data->print_semaphore);
 	sem_wait(data->chopsticks);
 	sem_wait(data->print_semaphore);
 	printf("\001\033[4;32m\002%ld | Philosopher %d has"
-		"taken both chopsticks\033[0m\n",
+		"taken the LEFT chopstick\033[0m\n",
 		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 	go_eat(philo);
@@ -35,13 +40,13 @@ void	go_eat(t_nietzsche *philo)
 
 	data = philo->my_data;
 	sem_wait(data->print_semaphore);
-	ft_printf(1, "\001\033[4;33m\002%d | Philosopher %d is eating\n\033[0m",
+	printf("\001\033[4;33m\002%ld | Philosopher %d is eating\n\033[0m",
 		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 	ft_sleep(data->time_to_eat);
 	sem_wait(philo->edit_sem);
-	philo->last_meal_time = ft_get_current_time();
 	philo->number_of_meals_eaten++;
+	philo->last_meal_time = ft_get_current_time();
 	if (philo->number_of_meals_eaten == data->nums_times_philo_must_eat)
 		sem_post(data->all_eat_sem);
 	sem_post(philo->edit_sem);
@@ -53,12 +58,12 @@ void	go_sleep_think(t_nietzsche *philo)
 
 	data = philo->my_data;
 	sem_wait(data->print_semaphore);
-	ft_printf(1, "\001\033[4;35m\002%d | Philosopher %d is sleeping\n\033[0m",
+	printf("\001\033[4;35m\002%ld | Philosopher %d is sleeping\n\033[0m",
 		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 	ft_sleep(data->time_to_sleep);
 	sem_wait(data->print_semaphore);
-	ft_printf(1, "\001\033[4;36m\002%d | Philosopher %d is thinking\n\033[0m",
+	printf("\001\033[4;36m\002%ld | Philosopher %d is thinking\n\033[0m",
 		ft_get_current_time() - data->initial_time, philo->id);
 	sem_post(data->print_semaphore);
 }
@@ -82,15 +87,14 @@ void	prepare_the_semapores(t_data *data)
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
+	t_data	data;
 
-	data = (t_data *)malloc(sizeof(t_data));
 	if (parsing(ac, av))
 		return (0);
-	initialize_data(data, av);
-	prepare_the_semapores(data);
-	check_is_all_eaten_enough(data);
-	prepare_the_processes(data);
+	initialize_data(&data, av);
+	prepare_the_semapores(&data);
+	check_is_all_eaten_enough(&data);
+	prepare_the_processes(&data);
 	kill(0, SIGINT);
 	return (0);
 }

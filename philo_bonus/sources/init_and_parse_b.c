@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 01:48:08 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:29 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:48:32 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	check_arguments(int ac, char **av)
 	{
 		if (check_if_intger(av[i]))
 		{
-			ft_printf(2, "\001\033[1;31m\002Error: Wrong argument type\n\033[0m");
+			printf("\001\033[1;31m\002Error: Wrong argument type\n\033[0m");
 			return (1);
 		}
 		if (ft_atoi(av[i]) <= 0)
 		{
-			ft_printf(2, "\001\033[1;31m\002Error: Wrong argument value\n\033[0m");
+			printf("\001\033[1;31m\002Error: Wrong argument value\n\033[0m");
 			return (1);
 		}
 		i++;
@@ -72,7 +72,7 @@ int	parsing(int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
 	{
-		ft_printf(2, "\001\033[1;31m\002Error: Wrong number of arguments\n\033[0m");
+		printf("\001\033[1;31m\002Error: Wrong number of arguments\n\033[0m");
 		return (1);
 	}
 	else if (check_arguments(ac, av))

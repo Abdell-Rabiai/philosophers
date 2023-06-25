@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 20:46:55 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:56 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/24 04:00:29 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	*start_philosophizing(void *node)
 	t_nietzsche	*tmp;
 
 	tmp = (t_nietzsche *)node;
+	if (tmp->id % 2 == 0)
+		ft_sleep(200);
 	while (true)
 	{
 		take_the_forks_and_eat(tmp);

@@ -6,11 +6,21 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 18:50:07 by arabiai           #+#    #+#             */
-/*   Updated: 2023/05/26 17:14:45 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 19:18:39 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
+
+size_t	ft_strlen(const char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

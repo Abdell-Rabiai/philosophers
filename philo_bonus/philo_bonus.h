@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:15 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:52:46 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 # include <signal.h>
 # include <pthread.h>
 # include <semaphore.h>
-# include "ft_printf/ft_printf.h"
 
 # define SLEEP 0
-# define FORK 1
+# define FORK_RIGHT 1
+# define FORK_LEFT -1
 # define EAT 2
 # define THINK 3
 # define DEAD 4
@@ -66,6 +66,8 @@ typedef struct s_data
 	sem_t			*all_eat_sem;
 }	t_data;
 
+size_t			ft_strlen(const char *s);
+void			free_everything2(t_data *data);
 int				check_arguments(int ac, char **av);
 int				parsing(int ac, char **av);
 void			initialize_data(t_data *socrates, char **av);

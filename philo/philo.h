@@ -6,7 +6,7 @@
 /*   By: arabiai <arabiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:42:51 by arabiai           #+#    #+#             */
-/*   Updated: 2023/06/14 18:34:41 by arabiai          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:41:49 by arabiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <signal.h>
 # include <sys/errno.h>
 # include <sys/time.h>
-# include "ft_printf/ft_printf.h"
 # include <pthread.h>
 
 # define SLEEP 0
-# define FORK 1
+# define FORK_RIGHT 1
+# define FORK_LEFT -1
 # define EAT 2
 # define THINK 3
 # define DEAD 4
